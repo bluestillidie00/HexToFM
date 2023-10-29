@@ -57,7 +57,7 @@ class ColorConverterApp(QMainWindow):
         try:
             rgb_value = self.convert_hex_to_rgb(hex_code)
 
-            xml_output = f'<colour name="{color_name}" value="rgb({rgb_value})" />'
+            xml_output = f'<colour name="{color_name}" value="rgb({rgb_value})" /> #{hex_code} '
             self.xml_output_text.setText(xml_output)
         except Exception as e:
             self.xml_output_text.setText(f"Error: {str(e)}")
