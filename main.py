@@ -5,14 +5,23 @@ from win32mica import ApplyMica, MicaTheme, MicaStyle
 import sys
 import os
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS2
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
+#https://stackoverflow.com/questions/31836104/pyinstaller-and-onefile-how-to-include-an-image-in-the-exe-file
+
 class ColorConverterApp(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.init_ui()
-
-
-
 
     def init_ui(self):
         self.setWindowTitle("Hex to FM Colour Converter")
@@ -57,7 +66,7 @@ class ColorConverterApp(QMainWindow):
         try:
             rgb_value = self.convert_hex_to_rgb(hex_code)
 
-            xml_output = f'<colour name="{color_name}" value="rgb({rgb_value})" /> #{hex_code} '
+            xml_output = f'<colour name="{color_name}" value="rgb({rgb_value})"/> <!-- #{hex_code} --> '
             self.xml_output_text.setText(xml_output)
         except Exception as e:
             self.xml_output_text.setText(f"Error: {str(e)}")
